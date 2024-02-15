@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% block content %}
+<h1>Game #{{ game.id }}!</h1>
+<form action="" method="post">
+  {{ form.hidden_tag() }}
+  <p>
+    {{ form.guess.label }}<br />
+    {{ form.guess(size=32) }}<br />
+    {% for error in form.guess.errors %}
+    <span style="color: red">[{{ error }}]</span>
+    {% endfor %} <br />
+  </p>
+  <p>{{ form.submit() }}</p>
+</form>
+{% endblock %}

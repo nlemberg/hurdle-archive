@@ -1,0 +1,9 @@
+{% extends "base.html" %} {% block content %}
+<h1>User: {{ user.username }}</h1>
+{% if user == current_user %}
+<p><a href="{{ url_for('edit_profile') }}">Edit your profile</a></p>
+{% endif %}
+<hr />
+{% for game in games %}
+<p>{{ game.id }} status: <b>{{ game.status }}</b></p>
+{% endfor %} {% endblock %}

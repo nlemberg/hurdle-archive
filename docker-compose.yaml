@@ -19,8 +19,6 @@ services:
         env_file:
           - .env
           - .flaskenv
-        ports:
-          - 8000:5000
         expose:
             - "8000"
         networks:

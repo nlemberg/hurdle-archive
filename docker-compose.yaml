@@ -24,27 +24,27 @@ services:
         expose:
             - "8000"
         networks:
-            # - hurdle_fe
+            - hurdle_fe
             - hurdle_be
         depends_on:
             - database
 
-  # proxy:
-  #       image: nginx:1.25.2-alpine
-  #       container_name: nginx
-  #       ports:
-  #           - 80:80
-  #       volumes:
-  #           - "./nginx/conf:/etc/nginx/conf.d"
-  #           - static_files:/usr/share/nginx/html/
-  #       networks:
-  #           - hurdle_fe
-  #       depends_on:
-  #           - backend
+  proxy:
+        image: nginx:1.25.2-alpine
+        container_name: nginx
+        ports:
+            - 80:80
+        volumes:
+            - "./nginx/conf:/etc/nginx/conf.d"
+            # - static_files:/usr/share/nginx/html/
+        networks:
+            - hurdle_fe
+        depends_on:
+            - backend
 
 networks:
-    # hurdle_fe:
-    #     name: hurdle_fe
+    hurdle_fe:
+        name: hurdle_fe
     hurdle_be:
         name: hurdle_be
 

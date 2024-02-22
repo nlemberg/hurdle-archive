@@ -1,0 +1,55 @@
+services:
+  database:
+    container_name: mysql
+    image: mysql:5.7
+    restart: always
+    env_file:
+      - .env
+    expose:
+        - "3306"
+    volumes:
+        # - ./db/dump:/docker-entrypoint-initdb.d
+        - "mysql_data:/var/lib/mysql"
+    networks:
+        - hurdle_be
+
+  backend:
+        image: hurdle-archive
+        container_name: hurdle-archive
+        env_file:
+          - .env
+          - .flaskenv
+        ports:
+          - 8000:5000
+        expose:
+            - "8000"
+        networks:
+            # - hurdle_fe
+            - hurdle_be
+        depends_on:
+            - database
+
+  # proxy:
+  #       image: nginx:1.25.2-alpine
+  #       container_name: nginx
+  #       ports:
+  #           - 80:80
+  #       volumes:
+  #           - "./nginx/conf:/etc/nginx/conf.d"
+  #           - static_files:/usr/share/nginx/html/
+  #       networks:
+  #           - hurdle_fe
+  #       depends_on:
+  #           - backend
+
+networks:
+    # hurdle_fe:
+    #     name: hurdle_fe
+    hurdle_be:
+        name: hurdle_be
+
+volumes:
+    mysql_data:
+        name:  mysql_data
+    # static_files:
+    #     name: static_files

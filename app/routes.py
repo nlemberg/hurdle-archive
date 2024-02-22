@@ -103,6 +103,7 @@ def game(game_id):
             db.session.add(game_played)
             db.session.commit()
             flash('Congrats, you won!')
+            # change this to main games in the future
             return redirect(url_for('game', game_id=game.id))
         else:
             flash('Try again')

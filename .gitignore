@@ -26,6 +26,8 @@ pip-log.txt
 .coverage
 .tox
 nosetests.xml
+.pytest_cache/
+htmlcov/
 
 # Translations
 *.mo
@@ -35,6 +37,18 @@ nosetests.xml
 .project
 .pydevproject
 
-venv
 app.db
 hurdle-archive.log*
+
+# Python
+venv
+.venv/
+*.pyc
+__pycache__/
+
+# Compiled
+dist/
+build/
+
+# specific files
+init_hurdle.sql

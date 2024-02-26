@@ -30,27 +30,27 @@ pipeline {
                 """
             }
         }
-        stage('Test Container') {
+        stage('Test Container'){
             steps {
-                script {
-                    def attempts = 7
+                sh """
+                    attempts=7
+                    http_status=
 
-                    while (attempts > 0) {
-                        def httpStatus = sh(script: 'curl -Is http://hurdle-archive:5000 | head -n 1 | awk \'{print $2}\'', returnStatus: true).trim()
+                    while [ \$attempts -gt 0 ]; do
+                    http_status=\$(curl -Is http://hurdle-archive:5000 | head -n 1)
+                    if [ \$http_status ==~ \/\^HTTP/1.1 302 FOUND\/ ]; then
+                        echo "hurdle-archive app is up and running"
+                        break
+                    else
+                        sleep 3
+                        attempts=\$((attempts - 1))
+                    fi
+                    done
 
-                        if (httpStatus == "302") {
-                            echo "hurdle-archive app is up and running"
-                            break
-                        } else {
-                            sleep 3
-                            attempts--
-                        }
-                    }
-
-                    if (attempts == 0) {
-                        echo "Could not connect to hurdle-archive app (status ${httpStatus})"
-                    }
-                }
+                    if [ \$attempts -eq 0 ]; then
+                    echo "Could not connect to hurdle-archive app (status \$http_status)"
+                    fi
+                """
             }
         }
         stage('Destroy'){

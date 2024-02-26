@@ -38,7 +38,7 @@ pipeline {
 
                     while [ \$attempts -gt 0 ]; do
                     http_status=\$(curl -Is http://hurdle-archive:5000 | head -n 1)
-                    if [ \$http_status == "HTTP/1.1 302 FOUND" ]; then
+                    if [ \$http_status = "HTTP/1.1 302 FOUND" ]; then
                         echo "hurdle-archive app is up and running"
                         break
                     else

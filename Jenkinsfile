@@ -37,7 +37,7 @@ pipeline {
                     http_status=
 
                     while [ \$attempts -gt 0 ]; do
-                    http_status=\$(curl -Is http://hurdle-archive:5000 | head -n 1 | awk '{print \$2}')
+                    http_status=\$(curl -Is http://hurdle-archive:5000 | head -n 1 | awk '{print $2}')
                     if [ \$http_status = "302" ]; then
                         echo "hurdle-archive app is up and running"
                         break

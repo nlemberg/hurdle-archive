@@ -19,7 +19,7 @@ pipeline {
                 sh 'sleep 30'
             }
         }
-        stage('Build+Run'){
+        stage('Destroy'){
             steps {
                 sh "echo 'spinning down'"
                 sh 'docker-compose down -v'

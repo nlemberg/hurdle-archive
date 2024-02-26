@@ -30,27 +30,44 @@ pipeline {
                 """
             }
         }
+        // stage('Test Container'){
+        //     steps {
+        //         sh """
+        //             attempts=7
+        //             http_status=
+
+        //             while [ \$attempts -gt 0 ]; do
+        //             http_status=\$(curl --write-out '%{http_code}' -s -o /dev/null http://hurdle-archive:5000)
+        //             if [ \$http_status = "302" ]; then
+        //                 echo "hurdle-archive app is up and running"
+        //                 break
+        //             else
+        //                 sleep 3
+        //                 attempts=\$((attempts - 1))
+        //             fi
+        //             done
+
+        //             if [ \$attempts -eq 0 ]; then
+        //             echo "Could not connect to hurdle-archive app (status \$http_status)"
+        //             fi
+        //         """
+        //     }
+        // }
         stage('Test Container'){
             steps {
-                sh """
-                    attempts=7
-                    http_status=
+                script {
+                    final String url = "http://hurdle-archive:5000"
+                        final def (String response, int code) =
+                            sh(script: "curl -s -w '\\n%{response_code}' $url", returnStdout: true)
+                                .trim()
 
-                    while [ \$attempts -gt 0 ]; do
-                    http_status=\$(curl -Is http://hurdle-archive:5000 | head -n 1 | awk '"{print \$2}"')
-                    if [ \$http_status = "302" ]; then
-                        echo "hurdle-archive app is up and running"
-                        break
-                    else
-                        sleep 3
-                        attempts=\$((attempts - 1))
-                    fi
-                    done
+                        echo "HTTP response status code: $code"
 
-                    if [ \$attempts -eq 0 ]; then
-                    echo "Could not connect to hurdle-archive app (status \$http_status)"
-                    fi
-                """
+                        if (code == 302) {
+                            echo "hurdle-archive app is up and running"
+                        }
+                    
+                }
             }
         }
         stage('Destroy'){

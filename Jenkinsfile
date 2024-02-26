@@ -27,17 +27,28 @@ pipeline {
                         docker rm hurdle-archive
                     fi
                     docker run --name hurdle-archive --network "jenkins_network" -p 5000:5000 -d hurdle-img
+                    sleep 30
                 """
+            }
+        }
+        stage('Test Container'){
+            steps {
+                sh '''
+                    http_status=\$(curl --write-out \'%{http_code}\' -s -o /dev/null http://hurdle-archive:5000)
+                    if [ \$http_status = "302" ]; then
+                        echo "hurdle-archive app is up and running"
+                    fi
+                '''
             }
         }
         // stage('Test Container'){
         //     steps {
-        //         sh """
+        //         sh '''
         //             attempts=7
         //             http_status=
 
         //             while [ \$attempts -gt 0 ]; do
-        //             http_status=\$(curl --write-out '%{http_code}' -s -o /dev/null http://hurdle-archive:5000)
+        //             http_status=\$(curl --write-out \'%{http_code}\' -s -o /dev/null http://hurdle-archive:5000)
         //             if [ \$http_status = "302" ]; then
         //                 echo "hurdle-archive app is up and running"
         //                 break
@@ -50,29 +61,12 @@ pipeline {
         //             if [ \$attempts -eq 0 ]; then
         //             echo "Could not connect to hurdle-archive app (status \$http_status)"
         //             fi
-        //         """
+        //         '''
         //     }
         // }
-        stage('Test Container'){
-            steps {
-                script {
-                    final String url = "http://hurdle-archive:5000"
-                        final def (String response, int code) =
-                            sh(script: "curl -s -w '\\n%{response_code}' $url", returnStdout: true)
-                                .trim()
-
-                        echo "HTTP response status code: $code"
-
-                        if (code == 302) {
-                            echo "hurdle-archive app is up and running"
-                        }
-                    
-                }
-            }
-        }
         stage('Destroy'){
             steps {
-                sh "removing hurdle-archive container and image"
+                sh 'echo "removing hurdle-archive container and image"'
                 sh 'docker stop hurdle-archive'
                 sh 'docker rm hurdle-archive'
                 sh 'docker rmi hurdle-img'

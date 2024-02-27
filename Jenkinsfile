@@ -27,18 +27,15 @@ pipeline {
                         docker rm hurdle-archive
                     fi
                     docker run --name hurdle-archive --network "jenkins_network" -p 5000:5000 -d hurdle-img
-                    sleep 30
                 """
             }
         }
         stage('Test Container'){
             steps {
-                sh '''
-                    http_status=\$(curl --write-out \'%{http_code}\' -s -o /dev/null http://hurdle-archive:5000)
-                    if [ \$http_status = "302" ]; then
-                        echo "hurdle-archive app is up and running"
-                    fi
-                '''
+                retry(15) {
+                sleep(time: 3, unit: 'SECONDS')
+                sh 'curl -fsSLI http://hurdle-archive:5000'
+                }
             }
         }
         // stage('Test Container'){

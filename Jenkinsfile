@@ -36,8 +36,10 @@ pipeline {
         // }
         stage('Run'){
             steps {
-                export TEST_NET=${TEST_NET}
-                sh 'docker-compose up -d'
+                sh """
+                    export TEST_NET=${TEST_NET}
+                    docker-compose up -d
+                """
             }
         }
         stage('Test Container'){

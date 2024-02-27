@@ -4,10 +4,10 @@ services:
     image: mysql:5.7
     restart: always
     environment:
-        - MYSQL_DATABASE: ${MYSQL_DATABASE:-hurdle-archive}
-        - MYSQL_USER: ${MYSQL_USER:-user}
-        - MYSQL_PASSWORD: ${MYSQL_PASSWORD:-pass}
-        - MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpass}
+        MYSQL_DATABASE: ${MYSQL_DATABASE:-hurdle-archive}
+        MYSQL_USER: ${MYSQL_USER:-user}
+        MYSQL_PASSWORD: ${MYSQL_PASSWORD:-pass}
+        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpass}
     expose:
         - "3306"
     volumes:
@@ -20,7 +20,7 @@ services:
     image: hurdle-archive
     container_name: hurdle-archive
     environment:
-        - DATABASE_URL: "${DATABASE_URL:-mysql+pymysql://user:pass@mysql/hurdle-archive}"
+        DATABASE_URL: ${DATABASE_URL:-mysql+pymysql://user:pass@mysql/hurdle-archive}
     env_file:
         - .flaskenv
     expose:

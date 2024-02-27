@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Build Image') {
             steps {
-                sh 'docker build -t hurdle-img .'
+                sh 'docker build -t hurdle-archive .'
             }
         }
         // stage('Run Container'){
@@ -26,15 +26,13 @@ pipeline {
         //                 docker stop hurdle-archive
         //                 docker rm hurdle-archive
         //             fi
-        //             docker run --name hurdle-archive --network "jenkins_network" -p 5000:5000 -d hurdle-img
+        //             docker run --name hurdle-archive --network "jenkins_network" -p 5000:5000 -d hurdle-archive
         //         """
         //     }
         // }
         stage('Run'){
             steps {
-                sh """
-                    docker-compose up -d
-                """
+                sh 'docker-compose up -d'
             }
         }
         stage('Test Container'){
@@ -55,7 +53,7 @@ pipeline {
         //         sh 'echo "removing hurdle-archive container and image"'
         //         sh 'docker stop hurdle-archive'
         //         sh 'docker rm hurdle-archive'
-        //         sh 'docker rmi hurdle-img'
+        //         sh 'docker rmi hurdle-archive'
         //     }
         // }
     }

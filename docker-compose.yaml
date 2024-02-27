@@ -37,7 +37,7 @@ services:
             # - static_files:/usr/share/nginx/html/
         networks:
             - hurdle_fe
-            - jenkins_network
+            - jenkins-test-net
         depends_on:
             - backend
 
@@ -46,8 +46,8 @@ networks:
         name: hurdle_fe
     hurdle_be:
         name: hurdle_be
-    jenkins_network:
-        name: jenkins_network
+    jenkins-test-net:
+        name: "${TEST_NET}"
 
 volumes:
     mysql_data:

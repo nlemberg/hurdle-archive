@@ -5,6 +5,10 @@ pipeline {
         timeout(time: 10, unit: 'MINUTES')
     }
     
+    environment {
+        TEST_NET = 'jenkins-test-net'
+    }
+    
     stages {
         stage('Checkout') {
             steps {
@@ -32,6 +36,7 @@ pipeline {
         // }
         stage('Run'){
             steps {
+                export TEST_NET=${TEST_NET}
                 sh 'docker-compose up -d'
             }
         }
@@ -39,7 +44,11 @@ pipeline {
             steps {
                 retry(15) {
                 sleep(time: 3, unit: 'SECONDS')
-                sh 'curl -fsSLI http://hurdle-archive:80'
+                sh """
+                    docker run --rm --network ${TEST_NET} \
+                        docker.io/curlimages/curl:latest \
+                        -fsSLI http://nginx:80/health
+                """
                 }
             }
         }

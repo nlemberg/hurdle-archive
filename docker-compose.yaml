@@ -20,7 +20,7 @@ services:
     image: hurdle-archive
     container_name: hurdle-archive
     environment:
-        - DATABASE_URL: ${DATABASE_URL:-mysql+pymysql://user:pass@mysql/hurdle-archive}
+        - DATABASE_URL: "${DATABASE_URL:-mysql+pymysql://user:pass@mysql/hurdle-archive}"
     env_file:
         - .flaskenv
     expose:

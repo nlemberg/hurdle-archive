@@ -13,7 +13,7 @@ pipeline {
     
     environment {
         ECR_REPO="644435390668.dkr.ecr.us-east-1.amazonaws.com/nl-hurdle-archive"
-        EC2_IP = env.EC2_IP // configured in jenkins ui
+        EC2_IP = "${env.EC2_IP}" // configured in jenkins ui
         TEST_NET = 'jenkins-test-net'
     }
     

@@ -32,12 +32,13 @@ services:
         - database
 
   proxy:
-    image: nginx:1.25.2-alpine
+    build:
+      context: ./nginx/conf
     container_name: nginx
     ports:
         - 80:80
-    volumes:
-        - "./nginx/conf:/etc/nginx/conf.d"
+    # volumes:
+    #     - "./nginx/conf:/etc/nginx/conf.d"
         # - static_files:/usr/share/nginx/html/
     networks:
         - hurdle_fe

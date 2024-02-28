@@ -49,7 +49,7 @@ pipeline {
                 sh """
                     docker run --rm --network ${TEST_NET} \
                         docker.io/curlimages/curl:latest \
-                        -fsSLI http://nginx:80/health
+                        -fsSLI http://nginx:80
                 """
                 }
             }

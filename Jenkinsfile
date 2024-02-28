@@ -13,7 +13,7 @@ pipeline {
     
     environment {
         ECR_REPO="644435390668.dkr.ecr.us-east-1.amazonaws.com/nl-hurdle-archive"
-        EC2_IP = sh(script: 'aws ec2 describe-instances --filters "Name=tag:Name,Values=nl-jenkins" --query "Reservations[0].Instances[0].PublicDnsName" --output text', returnStdout: true).trim()
+        EC2_IP = env.EC2_IP // configured in jenkins ui
         TEST_NET = 'jenkins-test-net'
     }
     
@@ -31,21 +31,13 @@ pipeline {
         }
         stage('Run'){
             steps {
-                sh """
-                    export TEST_NET=${TEST_NET}
-                    docker-compose up -d
-                """
+                sh 'docker-compose up -d'
             }
         }
         stage('Test Container'){
             steps {
                 retry(15) {
                 sleep(time: 3, unit: 'SECONDS')
-                // sh """
-                //     docker run --rm --network ${TEST_NET} \
-                //         docker.io/curlimages/curl:latest \
-                //         -fsSLI http://nginx:80
-                // """
                 sh "curl -fsSLI http://${EC2_IP}:80"
                 }
             }

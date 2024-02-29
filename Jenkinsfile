@@ -138,7 +138,8 @@ pipeline {
             post {
                 always {
                     sh """
-                        docker rmi hurdle-archive:${NEW_VERSION}
+                        docker rmi ${ECR_REPO}:${NEW_VERSION}
+                        docker rmi ${ECR_REPO}:latest
                         docker rmi hurdle-archive:latest
                         docker logout ${ECR_REPO}
                     """

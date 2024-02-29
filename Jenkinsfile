@@ -12,7 +12,6 @@ pipeline {
     }
     
     environment {
-        // ECR_ADDR="644435390668.dkr.ecr.us-east-1.amazonaws.com"
         ECR_REPO="644435390668.dkr.ecr.us-east-1.amazonaws.com/nl-hurdle-archive"
         EC2_IP = "${env.EC2_IP}" // configured in jenkins ui
         TEST_NET = 'jenkins-test-net'
@@ -58,8 +57,7 @@ pipeline {
 
         stage('Publish'){
             when {
-                // branch "main"
-                branch "jenkins" // switch
+                branch "main"
             }
             stages {
 

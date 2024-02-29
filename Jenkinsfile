@@ -108,6 +108,7 @@ pipeline {
                 stage('Docker Tag'){
                     steps {
                         sh "docker tag hurdle-archive:latest ${ECR_REPO}:${NEW_VERSION}"
+                        sh "docker tag hurdle-archive:latest ${ECR_REPO}:latest"
                     }
                 }
 

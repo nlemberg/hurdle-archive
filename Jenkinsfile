@@ -121,7 +121,7 @@ pipeline {
                     }
                 }
 
-                stage('Docker Tag'){
+                stage('Git Tag'){
                     steps {
                         withCredentials([gitUsernamePassword(credentialsId: 'github-token', gitToolName: 'Default')]) {
                             sh """

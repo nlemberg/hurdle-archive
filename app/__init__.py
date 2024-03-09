@@ -14,7 +14,10 @@ migrate = Migrate(app, db)
 login = LoginManager(app)
 login.login_view = 'login'
 
-if not app.debug:
+if app.debug:
+    app.logger.setLevel(logging.DEBUG)
+    app.logger.debug('DB URI: %s', app.config['SQLALCHEMY_DATABASE_URI'])
+else:
     if not os.path.exists('logs'):
         os.mkdir('logs')
     file_handler = RotatingFileHandler('logs/hurdle-archive.log', maxBytes=10240,

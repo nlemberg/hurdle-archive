@@ -15,6 +15,12 @@ services:
         - "mysql_data:/var/lib/mysql"
     networks:
         - hurdle_be
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:3306"]
+        interval: 5s
+        timeout: 30s
+        retries: 6
+        start_period: 15s
 
   backend:
     image: hurdle-archive
@@ -24,12 +30,19 @@ services:
     env_file:
         - .flaskenv
     expose:
-        - "8000"
+        - "5000"
     networks:
         - hurdle_fe
         - hurdle_be
     depends_on:
-        - database
+        database:
+            condition: service_healthy
+    healthcheck:
+        test: ["CMD", "nc", "-z", "hurdle-archive", "5000"]
+        interval: 5s
+        timeout: 30s
+        retries: 6
+        start_period: 15s
 
   proxy:
     build:
@@ -43,7 +56,8 @@ services:
     networks:
         - hurdle_fe
     depends_on:
-        - backend
+        database:
+            condition: service_healthy
 
 networks:
     hurdle_fe:

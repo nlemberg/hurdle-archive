@@ -14,7 +14,6 @@ pipeline {
     environment {
         ECR_REPO="644435390668.dkr.ecr.us-east-1.amazonaws.com/nl-hurdle-archive"
         EC2_IP = "${env.EC2_IP}" // configured in jenkins ui
-        TEST_NET = 'jenkins-test-net'
     }
     
     stages {
@@ -50,7 +49,7 @@ pipeline {
                     sh 'docker-compose down -v'
                 }
                 success {
-                    sh "echo 'hurdle-archive is up and running on nginx'"
+                    sh "echo 'hurdle-archive was up and running on nginx'"
                 }
             }
         }

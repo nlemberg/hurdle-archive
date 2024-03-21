@@ -159,6 +159,7 @@ pipeline {
                         git commit -m 'Jenkins: updated app version in helm chart to ${NEW_VERSION}'
                         git push origin main
                     """
+                }
             }
         }
     }

@@ -154,7 +154,7 @@ pipeline {
                     sh """
                         git clone https://github.com/nlemberg/hurdle-archive-gitops.git
                         cd hurdle-archive-gitops
-                        sed -i -E "s/(appVersion: ).*/\1\"${NEW_VERSION}\"/" ./hurdle-archive/Chart.yaml
+                        perl -i -pe 's|(appVersion: ).*|\$1"${NEW_VERSION}"|' ./hurdle-archive/Chart.yaml
                         git add .
                         git commit -m 'Jenkins: updated app version in helm chart to ${NEW_VERSION}'
                         git push origin main

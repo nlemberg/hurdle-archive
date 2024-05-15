@@ -52,3 +52,7 @@ build/
 
 # specific files
 init_hurdle.sql
+
+# Config
+.env*
+!.env.example

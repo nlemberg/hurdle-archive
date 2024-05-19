@@ -2,24 +2,33 @@
 
 Are you familiar with Wordle? Of course you are. Hurdle is its nerdier sibling. [Try it out!](https://hurdlegame.io/)
 
-I'll admit I was hooked. One game a day was not enough, and so I created Hurdle Archive. This app allows you to play thousands of Hurdle games! Register as a user and the app will save your played games, your guesses, and your statistics.
+I'll admit I was hooked. One game a day was not enough, and so I created Hurdle Archive.
 
-## Tech Talk
+## Overview
 
-It's a simple Flask app that uses a MySQL database and hides behind an Nginx reverse-proxy.
+Hurdle Archive is a web application that lets registered users play and track their Hurdle games. It extends the single daily game experience of Hurdle to an archive of thousands of games.
+
+## Tech Stack
+
+- **Backend**: Flask
+- **Database**: MySQL
+- **Reverse Proxy**: Nginx
 
 ## Architecture
 
 Here's an overall look at the architecture:
+
 ![dockerized_app.png](./docs/dockerized_app.png "App Architecture")
 
 ## Context
 
-This app is a part of my DevOps portfolio. This portfolio is a culmination of my DevOps training and my aim is to improve it over time. You can find the other parts here:
+This app is part of my DevOps portfolio, showcasing my skills and training. My aim is to improve it over time. The other parts of this portfolio can be found here:
 
-- [Infrastructure repo](https://github.com/nlemberg/hurdle-archive-infra)
-- [GitOps repo](https://github.com/nlemberg/hurdle-archive-gitops)
+- [Infrastructure repo](https://github.com/nlemberg/hurdle-archive-infra): Contains Terraform code for provisioning the necessary AWS resources and deploying the app on an EKS cluster.
+- [GitOps repo](https://github.com/nlemberg/hurdle-archive-gitops): Contains configuration files and manifests responsible for the continuous deployment of the apps in the cluster.
 
-Here's the general workflow, an overview of the entire project's components:
+## Project Workflow
+
+Here's an overview of the entire project's components:
 
 ![general_workflow.png](./docs/general_workflow.png "Project Workflow")
